@@ -494,12 +494,17 @@ async function submitForm() {
   const payload = { staffName, checkType, checkDate, branch: "Damansara Uptown", rows, submittedAt: new Date().toISOString() };
 
   // ⚠️ Replace with your Kitchen Stock Check Apps Script URL
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxqmb8BpuWOGnvBRWt5IqmN6_uxYy9nbaOU9ihmH2fVyc93aUBNwe33QHiWZdqUMApo/exec';
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzn6SFyuXVEDsbGpyGILHHQrsuWC-9bPHcosAsSwh10_MJsymXQEuZtlqtyR_72S_e2/exec';
 
   try {
-    const form = new FormData();
-    form.append('payload', JSON.stringify(payload));
-    await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: form });
+    const params = new URLSearchParams();
+    params.append('payload', JSON.stringify(payload));
+    await fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: params.toString()
+    });
     btn.disabled = false;
     btn.classList.add('success');
     btn.textContent = '✓ Submitted!';
